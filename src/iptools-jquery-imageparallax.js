@@ -29,10 +29,6 @@
     var self = event.data;
     var viewportCenterY = getViewportCenterY();
     var imageCenterY = getImageCenterY(self.$element);
-    self.alignImage(viewportCenterY, imageCenterY);
-  };
-
-  IPTImageParallax.prototype.alignImage = function(viewportCenterY, imageCenterY) {
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
