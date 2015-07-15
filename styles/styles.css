@@ -1,0 +1,7 @@
+.image-parallax {
+  overflow: hidden;
+}
+
+.image-parallax--image {
+  height: 100%;
+}
