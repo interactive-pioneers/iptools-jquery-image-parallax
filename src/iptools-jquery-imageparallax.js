@@ -9,14 +9,21 @@
     scrollFactor: 0.2
   };
 
+  var settings = null;
+  var self = null;
+
   function IPTImageParallax(element, options) {
     this.$element = $(element);
-    this.settings = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
+    self = this;
 
-    this.addEventListeners();
+    settings = $.extend({}, defaults, options);
+
+    addEventListeners();
   }
+
+  IPTImageParallax.prototype.getSettings = function() {
+    return settings;
+  };
 
   IPTImageParallax.prototype.updateViewport = function(event) {
     var self = event.data;
@@ -27,24 +34,24 @@
 
   IPTImageParallax.prototype.alignImage = function(viewportCenterY, imageCenterY) {
     var diffY = viewportCenterY - imageCenterY;
-    var offsetY = 50 - (diffY * this.settings.scrollFactor);
+    var offsetY = 50 - (diffY * settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
     this.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
-  };
-
-  IPTImageParallax.prototype.addEventListeners = function() {
-    $(document).on('touchstart' + '.' + this._name, null, this, this.updateViewport);
-    $(document).on('touchmove' + '.' + this._name, null, this, this.updateViewport);
-    $(document).on('touchend' + '.' + this._name, null, this, this.updateViewport);
-    $(document).on('touchcancel' + '.' + this._name, null, this, this.updateViewport);
-    $(window).on('scroll' + '.' + this._name, null, this, this.updateViewport);
   };
 
   IPTImageParallax.prototype.destroy = function() {
     $(document, window).off('.' + this._name);
     this.$element.removeData('plugin_' + pluginName);
   };
+
+  function addEventListeners() {
+    $(document).on('touchstart' + '.' + pluginName, self.updateViewport);
+    $(document).on('touchmove' + '.' + pluginName, self.updateViewport);
+    $(document).on('touchend' + '.' + pluginName, self.updateViewport);
+    $(document).on('touchcancel' + '.' + pluginName, self.updateViewport);
+    $(window).on('scroll' + '.' + pluginName, self.updateViewport);
+  }
 
   function getViewportCenterY() {
     var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
