@@ -37,7 +37,7 @@
 
   IPTImageParallax.prototype.destroy = function() {
     $(document, window).off('.' + pluginName);
-    this.$element.removeData('plugin_' + pluginName);
+    self.$element.removeData('plugin_' + pluginName);
   };
 
   function addEventListeners() {
