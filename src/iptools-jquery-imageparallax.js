@@ -17,6 +17,8 @@
     this.backgroundPosition = getBackgroundPosition(this.$element);
 
     addEventListeners(this);
+
+    this.updateViewport();
   }
 
   IPTImageParallax.prototype.updateViewport = function(event) {
