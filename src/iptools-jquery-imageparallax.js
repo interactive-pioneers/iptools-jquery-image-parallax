@@ -27,7 +27,7 @@
 
   IPTImageParallax.prototype.updateViewport = function() {
     var viewportCenterY = getViewportCenterY();
-    var imageCenterY = getImageCenterY(self.$element);
+    var imageCenterY = getImageCenterY();
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
@@ -55,10 +55,10 @@
     return centerY;
   }
 
-  function getImageCenterY($element) {
-    var offset = $element.offset();
+  function getImageCenterY() {
+    var offset = self.$element.offset();
     var top = offset.top;
-    var centerY = parseInt(($element.height() / 2) + top, 10);
+    var centerY = parseInt((self.$element.height() / 2) + top, 10);
     return centerY;
   }
 
