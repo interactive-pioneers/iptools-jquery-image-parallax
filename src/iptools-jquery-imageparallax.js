@@ -15,12 +15,8 @@
     this._defaults = defaults;
     this._name = pluginName;
 
-    this.init();
-  }
-
-  IPTImageParallax.prototype.init = function() {
     this.addEventListeners();
-  };
+  }
 
   IPTImageParallax.prototype.updateViewport = function(event) {
     var self = event.data;
