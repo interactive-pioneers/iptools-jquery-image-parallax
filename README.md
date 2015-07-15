@@ -4,7 +4,7 @@ Image parallax plugin
 
 ## Features
 
-...
+- Smoothly animated parallax effect for images while scrolling. 
 
 ## Requirements
 
@@ -12,12 +12,17 @@ Image parallax plugin
 
 ## Example
 
-...
+```html
+<div class="image-parallax" style="height: 600px;">
+  <div class="image-parallax--image" style="background-image: url('//lorempixel.com/600/560/food/');"></div>
+</div>
+```
 
 ## Contributions
 
 ### Development
-- `npm install`
+- `npm i`
+- `bower i`
 
 ### Bug reports, suggestions
 
@@ -27,7 +32,7 @@ Image parallax plugin
 
 ### Code
 
-1. Fork it ( https://github.com/[my-github-username]/iptools-jquery-genericfilterfork )
+1. Fork it ( https://github.com/[my-github-username]/iptools-jquery-imageparallax )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Develop your feature by concepts of [TDD](http://en.wikipedia.org/wiki/Test-driven_development), see [Tips](#tips)
 3. Commit your changes (`git commit -am 'Add some feature'`)
