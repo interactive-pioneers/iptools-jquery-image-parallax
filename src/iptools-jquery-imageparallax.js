@@ -25,15 +25,14 @@
     return settings;
   };
 
-  IPTImageParallax.prototype.updateViewport = function(event) {
-    var self = event.data;
+  IPTImageParallax.prototype.updateViewport = function() {
     var viewportCenterY = getViewportCenterY();
     var imageCenterY = getImageCenterY(self.$element);
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
-    this.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
+    self.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
   };
 
   IPTImageParallax.prototype.destroy = function() {
