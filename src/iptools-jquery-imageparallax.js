@@ -1,5 +1,5 @@
 /* globals jQuery */
-(function($) {
+(function($, document, window) {
 
   'use strict';
 
@@ -20,9 +20,21 @@
     this.addEventListeners();
   };
 
-  IPTImageParallax.prototype.addEventListeners = function() {};
+  IPTImageParallax.prototype.updateViewport = function() {
+
+  };
+
+  IPTImageParallax.prototype.addEventListeners = function() {
+    $(document).on('touchstart' + '.' + this._name, null, this, this.updateViewport);
+    $(document).on('touchmove' + '.' + this._name, null, this, this.updateViewport);
+    $(document).on('touchend' + '.' + this._name, null, this, this.updateViewport);
+    $(document).on('touchcancel' + '.' + this._name, null, this, this.updateViewport);
+    $(window).on('scroll' + '.' + this._name, null, this, this.updateViewport);
+  };
 
   IPTImageParallax.prototype.destroy = function() {
+    $(document).off('.' + this._name);
+    $(window).off('.' + this._name);
     this.$element.removeData('plugin_' + pluginName);
   };
 
@@ -34,4 +46,4 @@
     });
   };
 
-})(jQuery);
+})(jQuery, document, window);
