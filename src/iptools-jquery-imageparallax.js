@@ -36,7 +36,7 @@
   };
 
   IPTImageParallax.prototype.destroy = function() {
-    $(document, window).off('.' + this._name);
+    $(document, window).off('.' + pluginName);
     this.$element.removeData('plugin_' + pluginName);
   };
 
