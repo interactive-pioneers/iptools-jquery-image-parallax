@@ -14,6 +14,8 @@
 
     this.settings = $.extend({}, defaults, options);
 
+    this.backgroundPosition = getBackgroundPosition(this.$element);
+
     addEventListeners(this);
   }
 
@@ -28,7 +30,7 @@
     if (self.$element.is('img')) {
       self.$element.css('top', parseInt(offsetY, 10) + 'px');
     } else {
-      self.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
+      self.$element.css('backgroundPosition', self.backgroundPosition.x + parseInt(offsetY, 10) + '%');
     }
   };
 
@@ -57,6 +59,14 @@
     var top = offset.top;
     var centerY = parseInt((instance.$element.height() / 2) + top, 10);
     return centerY;
+  }
+
+  function getBackgroundPosition($element) {
+    var backgroundPosition = $element.css('backgroundPosition').split(' ');
+    return {
+      x: backgroundPosition[0],
+      y: backgroundPosition[1]
+    };
   }
 
   $.fn[pluginName] = function(options) {
