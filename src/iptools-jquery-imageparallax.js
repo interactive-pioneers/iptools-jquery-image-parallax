@@ -13,7 +13,6 @@
     this.$element = $(element);
 
     this.settings = $.extend({}, defaults, options);
-    this.type = getType(this.$element);
     this.backgroundPosition = getBackgroundPosition(this.$element);
 
     addEventListeners(this);
@@ -31,11 +30,7 @@
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
 
-    if (self.type === 'image') {
-      self.$element.css('top', parseInt(offsetY, 10) + 'px');
-    } else {
-      self.$element.css('backgroundPosition', self.backgroundPosition.x + parseInt(offsetY, 10) + '%');
-    }
+    self.$element.css('backgroundPosition', self.backgroundPosition.x + parseInt(offsetY, 10) + '%');
   };
 
   IPTImageParallax.prototype.destroy = function() {
@@ -71,10 +66,6 @@
       x: backgroundPosition[0],
       y: backgroundPosition[1]
     };
-  }
-
-  function getType($element) {
-    return $element.is('img') ? 'image' : 'background';
   }
 
   $.fn[pluginName] = function(options) {
