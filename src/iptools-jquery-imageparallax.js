@@ -9,43 +9,40 @@
     scrollFactor: 0.2
   };
 
-  var settings = null;
-  var self = null;
-
   function IPTImageParallax(element, options) {
     this.$element = $(element);
-    self = this;
 
-    settings = $.extend({}, defaults, options);
+    this.settings = $.extend({}, defaults, options);
 
-    addEventListeners();
+    addEventListeners(this);
   }
 
-  IPTImageParallax.prototype.getSettings = function() {
-    return settings;
-  };
-
-  IPTImageParallax.prototype.updateViewport = function() {
+  IPTImageParallax.prototype.updateViewport = function(event) {
+    var self = event ? event.data : this;
     var viewportCenterY = getViewportCenterY();
-    var imageCenterY = getImageCenterY();
+    var imageCenterY = getImageCenterY(self);
     var diffY = viewportCenterY - imageCenterY;
-    var offsetY = 50 - (diffY * settings.scrollFactor);
+    var offsetY = 50 - (diffY * self.settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
-    self.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
+    if (self.$element.is('img')) {
+      self.$element.css('top', parseInt(offsetY, 10) + 'px');
+    } else {
+      self.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
+    }
   };
 
   IPTImageParallax.prototype.destroy = function() {
     $(document, window).off('.' + pluginName);
-    self.$element.removeData('plugin_' + pluginName);
+    this.$element.removeData('plugin_' + pluginName);
   };
 
-  function addEventListeners() {
-    $(document).on('touchstart' + '.' + pluginName, self.updateViewport);
-    $(document).on('touchmove' + '.' + pluginName, self.updateViewport);
-    $(document).on('touchend' + '.' + pluginName, self.updateViewport);
-    $(document).on('touchcancel' + '.' + pluginName, self.updateViewport);
-    $(window).on('scroll' + '.' + pluginName, self.updateViewport);
+  function addEventListeners(instance) {
+    $(document).on('touchstart' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(document).on('touchmove' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(document).on('touchend' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(document).on('touchcancel' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateViewport);
   }
 
   function getViewportCenterY() {
@@ -55,10 +52,10 @@
     return centerY;
   }
 
-  function getImageCenterY() {
-    var offset = self.$element.offset();
+  function getImageCenterY(instance) {
+    var offset = instance.$element.offset();
     var top = offset.top;
-    var centerY = parseInt((self.$element.height() / 2) + top, 10);
+    var centerY = parseInt((instance.$element.height() / 2) + top, 10);
     return centerY;
   }
 
