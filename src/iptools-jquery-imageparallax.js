@@ -13,7 +13,7 @@
     this.$element = $(element);
 
     this.settings = $.extend({}, defaults, options);
-
+    this.type = getType(this.$element);
     this.backgroundPosition = getBackgroundPosition(this.$element);
 
     addEventListeners(this);
@@ -25,9 +25,11 @@
     var imageCenterY = getImageCenterY(self);
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * self.settings.scrollFactor);
+
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
-    if (self.$element.is('img')) {
+
+    if (self.type === 'image') {
       self.$element.css('top', parseInt(offsetY, 10) + 'px');
     } else {
       self.$element.css('backgroundPosition', self.backgroundPosition.x + parseInt(offsetY, 10) + '%');
@@ -67,6 +69,10 @@
       x: backgroundPosition[0],
       y: backgroundPosition[1]
     };
+  }
+
+  function getType($element) {
+    return $element.is('img') ? 'image' : 'background';
   }
 
   $.fn[pluginName] = function(options) {
