@@ -25,7 +25,6 @@
 
   function IPTImageParallax(element, options) {
     this.$element = $(element);
-    this.$image = $(element).find('.image-parallax--image');
     this.settings = $.extend({}, defaults, options);
     this._defaults = defaults;
     this._name = pluginName;
@@ -40,7 +39,7 @@
   IPTImageParallax.prototype.updateViewport = function(event) {
     var self = event.data;
     var viewportCenterY = getViewportCenterY();
-    var imageCenterY = getImageCenterY(self.$image);
+    var imageCenterY = getImageCenterY(self.$element);
     self.alignImage(viewportCenterY, imageCenterY);
   };
 
@@ -49,7 +48,7 @@
     var offsetY = 50 - (diffY * this.settings.scrollFactor);
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
-    this.$image.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
+    this.$element.css('backgroundPosition', '50% ' + parseInt(offsetY, 10) + '%');
   };
 
   IPTImageParallax.prototype.addEventListeners = function() {
