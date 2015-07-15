@@ -9,20 +9,6 @@
     scrollFactor: 0.2
   };
 
-  function getViewportCenterY() {
-    var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
-    var scrollTop = $(window).scrollTop();
-    var centerY = parseInt((winHeight / 2) + scrollTop, 10);
-    return centerY;
-  }
-
-  function getImageCenterY($element) {
-    var offset = $element.offset();
-    var top = offset.top;
-    var centerY = parseInt(($element.height() / 2) + top, 10);
-    return centerY;
-  }
-
   function IPTImageParallax(element, options) {
     this.$element = $(element);
     this.settings = $.extend({}, defaults, options);
@@ -63,6 +49,20 @@
     $(document, window).off('.' + this._name);
     this.$element.removeData('plugin_' + pluginName);
   };
+
+  function getViewportCenterY() {
+    var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
+    var scrollTop = $(window).scrollTop();
+    var centerY = parseInt((winHeight / 2) + scrollTop, 10);
+    return centerY;
+  }
+
+  function getImageCenterY($element) {
+    var offset = $element.offset();
+    var top = offset.top;
+    var centerY = parseInt(($element.height() / 2) + top, 10);
+    return centerY;
+  }
 
   $.fn[pluginName] = function(options) {
     return this.each(function() {
