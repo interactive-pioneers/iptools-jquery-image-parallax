@@ -22,6 +22,7 @@
 
   IPTImageParallax.prototype.updateViewport = function(event) {
     var self = event ? event.data : this;
+
     var viewportCenterY = getViewportCenterY();
     var imageCenterY = getImageCenterY(self);
     var diffY = viewportCenterY - imageCenterY;
@@ -29,8 +30,9 @@
 
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
+    offsetY = parseInt(offsetY, 10);
 
-    self.$element.css('backgroundPosition', self.backgroundPosition.x + parseInt(offsetY, 10) + '%');
+    self.$element.css('backgroundPosition', self.backgroundPosition.x + offsetY + '%');
   };
 
   IPTImageParallax.prototype.destroy = function() {
