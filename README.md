@@ -13,8 +13,8 @@ Image parallax plugin
 ## Example
 
 ```html
-<div class="image-parallax" style="height: 600px;">
-  <div class="image-parallax--image" style="background-image: url('//lorempixel.com/600/560/food/');"></div>
+<div class="image-parallax" style="height: 560px;">
+  <div class="image-parallax--image" style="background-image: url('//lorempixel.com/600/600/food/');"></div>
 </div>
 ```
 
