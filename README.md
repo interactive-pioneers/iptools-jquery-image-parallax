@@ -16,6 +16,13 @@ Image parallax plugin
 <div class="image-parallax" style="height: 560px;">
   <div class="image-parallax--image" style="background-image: url('//lorempixel.com/600/600/food/');"></div>
 </div>
+<link rel="stylesheet" href="styles/styles.css" type="text/css">
+<script src="src/iptools-jquery-imageparallax.js"></script>
+<script type="text/javascript">
+  (function($, document, window) {
+    $('.image-parallax--image').iptImageParallax({});
+  })(jQuery, document, window);
+</script>
 ```
 
 ## Contributions
