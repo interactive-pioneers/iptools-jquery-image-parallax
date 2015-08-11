@@ -22,7 +22,6 @@
 
   IPTImageParallax.prototype.updateViewport = function(event) {
     var self = event ? event.data : this;
-
     var viewportCenterY = getViewportCenterY();
     var imageCenterY = getImageCenterY(self);
     var diffY = viewportCenterY - imageCenterY;
@@ -55,6 +54,7 @@
     var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
     var scrollTop = $(window).scrollTop();
     var centerY = parseInt((winHeight / 2) + scrollTop, 10);
+
     return centerY;
   }
 
@@ -62,11 +62,13 @@
     var offset = instance.$element.offset();
     var top = offset.top;
     var centerY = parseInt((instance.$element.height() / 2) + top, 10);
+
     return centerY;
   }
 
   function getBackgroundPosition($element) {
     var backgroundPosition = $element.css('backgroundPosition').split(' ');
+
     return {
       x: backgroundPosition[0],
       y: backgroundPosition[1]
