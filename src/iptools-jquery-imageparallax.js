@@ -10,6 +10,12 @@
   };
 
   function IPTImageParallax(element, options) {
+    // currently there is no support for chrome on IOS
+    // see: https://code.google.com/p/chromium/issues/detail?id=423444
+    if (navigator.userAgent.match('CriOS')) {
+      return;
+    }
+
     this.$element = $(element);
 
     this.settings = $.extend({}, defaults, options);
