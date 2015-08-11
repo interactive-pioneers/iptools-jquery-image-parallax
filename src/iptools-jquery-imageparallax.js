@@ -41,11 +41,14 @@
   };
 
   function addEventListeners(instance) {
-    $(document).on('touchstart' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(document).on('touchmove' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(document).on('touchend' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(document).on('touchcancel' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(document)
+      .on('touchstart' + '.' + pluginName, null, instance, instance.updateViewport)
+      .on('touchmove' + '.' + pluginName, null, instance, instance.updateViewport)
+      .on('touchend' + '.' + pluginName, null, instance, instance.updateViewport)
+      .on('touchcancel' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(window)
+      .on('scroll' + '.' + pluginName, null, instance, instance.updateViewport)
+      .on('mousewheel' + '.' + pluginName, null, instance, instance.updateViewport);
   }
 
   function getViewportCenterY() {
