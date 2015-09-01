@@ -32,14 +32,19 @@
     var viewportCenterY = getViewportCenterY();
 
     self.$collection.each(function() {
-      self.updateViewport($(this), viewportCenterY);
+      updateViewport($(this), viewportCenterY, self.settings);
     });
   };
 
-  IPTImageParallax.prototype.updateViewport = function($element, viewportCenterY) {
+  IPTImageParallax.prototype.destroy = function() {
+    $(document, window).off('.' + pluginName);
+    this.$collection.removeData('plugin_' + pluginName);
+  };
+
+  function updateViewport($element, viewportCenterY, settings) {
     var imageCenterY = getImageCenterY($element);
     var diffY = viewportCenterY - imageCenterY;
-    var offsetY = 50 - (diffY * this.settings.scrollFactor);
+    var offsetY = 50 - (diffY * settings.scrollFactor);
     var currentBackgroundPosition = $element.data('background-position');
 
     offsetY = Math.min(offsetY, 100);
@@ -47,12 +52,7 @@
     offsetY = parseInt(offsetY, 10);
 
     $element.css('backgroundPosition', currentBackgroundPosition.x + offsetY + '%');
-  };
-
-  IPTImageParallax.prototype.destroy = function() {
-    $(document, window).off('.' + pluginName);
-    this.$collection.removeData('plugin_' + pluginName);
-  };
+  }
 
   function addEventListeners(instance) {
     for (var i = 0; i <= instance.settings.events.length; i++) {
