@@ -5,6 +5,10 @@
 
   var pluginName = 'iptImageParallax';
 
+  var dataAttributes = {
+    bgPosition: 'background-position'
+  };
+
   var defaults = {
     scrollFactor: 0.2,
     events: ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'scroll']
@@ -45,7 +49,7 @@
     var imageCenterY = getImageCenterY($element);
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * settings.scrollFactor);
-    var currentBackgroundPosition = $element.data('background-position');
+    var currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
 
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
@@ -81,7 +85,7 @@
 
     $collection.each(function() {
       backgroundPosition = $(this).css('backgroundPosition').split(' ');
-      $(this).data('background-position', {
+      $(this).data(dataAttributes.bgPosition, {
         x: backgroundPosition[0],
         y: backgroundPosition[1]
       });
