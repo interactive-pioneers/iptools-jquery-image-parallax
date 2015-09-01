@@ -51,9 +51,7 @@
       .on('touchmove' + '.' + pluginName, null, instance, instance.updateViewport)
       .on('touchend' + '.' + pluginName, null, instance, instance.updateViewport)
       .on('touchcancel' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(window)
-      .on('scroll' + '.' + pluginName, null, instance, instance.updateViewport)
-      .on('mousewheel' + '.' + pluginName, null, instance, instance.updateViewport);
+    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateViewport);
   }
 
   function getViewportCenterY() {
