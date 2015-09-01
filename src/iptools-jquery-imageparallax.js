@@ -11,6 +11,7 @@
 
   var defaults = {
     scrollFactor: 0.2,
+    maxRange: 5,
     events: ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'scroll']
   };
 
@@ -51,17 +52,9 @@
     var offsetY = 50 - (diffY * settings.scrollFactor);
     var currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
 
-    offsetY = Math.min(offsetY, 100);
-    offsetY = Math.max(offsetY, 0);
-    offsetY = parseInt(offsetY, 10);
+    offsetY = clamp(offsetY, 0, 100);
 
     $element.css('backgroundPosition', currentBackgroundPosition.x + offsetY + '%');
-  }
-
-  function addEventListeners(instance) {
-    for (var i = 0; i <= instance.settings.events.length; i++) {
-      $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
-    }
   }
 
   function getViewportCenterY() {
@@ -90,6 +83,16 @@
         y: backgroundPosition[1]
       });
     });
+  }
+
+  function clamp(number, min, max) {
+    return number < min ? min : number > max ? max : number;
+  }
+
+  function addEventListeners(instance) {
+    for (var i = 0; i <= instance.settings.events.length; i++) {
+      $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
+    }
   }
 
   $.fn[pluginName] = function(options) {
