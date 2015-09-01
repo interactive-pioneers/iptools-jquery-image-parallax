@@ -6,7 +6,8 @@
   var pluginName = 'iptImageParallax';
 
   var defaults = {
-    scrollFactor: 0.2
+    scrollFactor: 0.2,
+    events: ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'scroll']
   };
 
   function IPTImageParallax(collection, options) {
@@ -35,6 +36,7 @@
   };
 
   IPTImageParallax.prototype.updateViewport = function($element) {
+    // @TODO only do this once
     var viewportCenterY = getViewportCenterY();
     var imageCenterY = getImageCenterY($element);
     var diffY = viewportCenterY - imageCenterY;
@@ -50,18 +52,13 @@
 
   IPTImageParallax.prototype.destroy = function() {
     $(document, window).off('.' + pluginName);
-    this.$collection.each(function() {
-      $(this).removeData('plugin_' + pluginName);
-    });
+    this.$collection.removeData('plugin_' + pluginName);
   };
 
   function addEventListeners(instance) {
-    $(document)
-      .on('touchstart' + '.' + pluginName, null, instance, instance.updateAllViewport)
-      .on('touchmove' + '.' + pluginName, null, instance, instance.updateAllViewport)
-      .on('touchend' + '.' + pluginName, null, instance, instance.updateAllViewport)
-      .on('touchcancel' + '.' + pluginName, null, instance, instance.updateAllViewport);
-    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateAllViewport);
+    for (var i = 0; i <= instance.settings.events.length; i++) {
+      $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
+    }
   }
 
   function getViewportCenterY() {
