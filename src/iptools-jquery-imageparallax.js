@@ -29,15 +29,14 @@
 
   IPTImageParallax.prototype.updateAllViewport = function(event) {
     var self = event ? event.data : this;
+    var viewportCenterY = getViewportCenterY();
 
     self.$collection.each(function() {
-      self.updateViewport($(this));
+      self.updateViewport($(this), viewportCenterY);
     });
   };
 
-  IPTImageParallax.prototype.updateViewport = function($element) {
-    // @TODO only do this once
-    var viewportCenterY = getViewportCenterY();
+  IPTImageParallax.prototype.updateViewport = function($element, viewportCenterY) {
     var imageCenterY = getImageCenterY($element);
     var diffY = viewportCenterY - imageCenterY;
     var offsetY = 50 - (diffY * this.settings.scrollFactor);
