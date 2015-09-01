@@ -9,49 +9,57 @@
     scrollFactor: 0.2
   };
 
-  function IPTImageParallax(element, options) {
+  function IPTImageParallax(collection, options) {
     // currently there is no support for chrome on IOS
     // see: https://code.google.com/p/chromium/issues/detail?id=423444
     if (navigator.userAgent.match('CriOS')) {
       return;
     }
 
-    this.$element = $(element);
+    this.$collection = $(collection);
 
     this.settings = $.extend({}, defaults, options);
-    this.backgroundPosition = getBackgroundPosition(this.$element);
 
+    getBackgroundPositions(this.$collection);
     addEventListeners(this);
 
-    this.updateViewport();
+    this.updateAllViewport();
   }
 
-  IPTImageParallax.prototype.updateViewport = function(event) {
+  IPTImageParallax.prototype.updateAllViewport = function(event) {
     var self = event ? event.data : this;
+
+    self.$collection.each(function() {
+      self.updateViewport($(this));
+    });
+  };
+
+  IPTImageParallax.prototype.updateViewport = function($element) {
     var viewportCenterY = getViewportCenterY();
-    var imageCenterY = getImageCenterY(self);
+    var imageCenterY = getImageCenterY($element);
     var diffY = viewportCenterY - imageCenterY;
-    var offsetY = 50 - (diffY * self.settings.scrollFactor);
+    var offsetY = 50 - (diffY * this.settings.scrollFactor);
+    var currentBackgroundPosition = $element.data('background-position');
 
     offsetY = Math.min(offsetY, 100);
     offsetY = Math.max(offsetY, 0);
     offsetY = parseInt(offsetY, 10);
 
-    self.$element.css('backgroundPosition', self.backgroundPosition.x + offsetY + '%');
+    $element.css('backgroundPosition', currentBackgroundPosition.x + offsetY + '%');
   };
 
   IPTImageParallax.prototype.destroy = function() {
     $(document, window).off('.' + pluginName);
-    this.$element.removeData('plugin_' + pluginName);
+    this.$collection.removeData('plugin_' + pluginName);
   };
 
   function addEventListeners(instance) {
     $(document)
-      .on('touchstart' + '.' + pluginName, null, instance, instance.updateViewport)
-      .on('touchmove' + '.' + pluginName, null, instance, instance.updateViewport)
-      .on('touchend' + '.' + pluginName, null, instance, instance.updateViewport)
-      .on('touchcancel' + '.' + pluginName, null, instance, instance.updateViewport);
-    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateViewport);
+      .on('touchstart' + '.' + pluginName, null, instance, instance.updateAllViewport)
+      .on('touchmove' + '.' + pluginName, null, instance, instance.updateAllViewport)
+      .on('touchend' + '.' + pluginName, null, instance, instance.updateAllViewport)
+      .on('touchcancel' + '.' + pluginName, null, instance, instance.updateAllViewport);
+    $(window).on('scroll' + '.' + pluginName, null, instance, instance.updateAllViewport);
   }
 
   function getViewportCenterY() {
@@ -62,29 +70,30 @@
     return centerY;
   }
 
-  function getImageCenterY(instance) {
-    var offset = instance.$element.offset();
+  function getImageCenterY($element) {
+    var offset = $element.offset();
     var top = offset.top;
-    var centerY = parseInt((instance.$element.height() / 2) + top, 10);
+    var centerY = parseInt(($element.height() / 2) + top, 10);
 
     return centerY;
   }
 
-  function getBackgroundPosition($element) {
-    var backgroundPosition = $element.css('backgroundPosition').split(' ');
+  function getBackgroundPositions($collection) {
+    var backgroundPosition = {};
 
-    return {
-      x: backgroundPosition[0],
-      y: backgroundPosition[1]
-    };
+    $collection.each(function() {
+      backgroundPosition = $(this).css('backgroundPosition').split(' ');
+      $(this).data('background-position', {
+        x: backgroundPosition[0],
+        y: backgroundPosition[1]
+      });
+    });
   }
 
   $.fn[pluginName] = function(options) {
-    return this.each(function() {
-      if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' + pluginName, new IPTImageParallax(this, options));
-      }
-    });
+    if (!$.data(this, 'plugin_' + pluginName)) {
+      $.data(this, 'plugin_' + pluginName, new IPTImageParallax(this, options));
+    }
   };
 
 })(jQuery, document, window);
