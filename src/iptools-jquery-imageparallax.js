@@ -110,7 +110,7 @@
     for (var i = 0; i <= instance.settings.events.length; i++) {
       $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
     }
-    $(window).on('resize', null, instance, handleResize);
+    $(window).on('resize' + '.' + pluginName, null, instance, handleResize);
   }
 
   $.fn[pluginName] = function(options) {
