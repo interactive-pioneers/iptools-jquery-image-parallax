@@ -26,7 +26,7 @@
   var offset = null;
   var top = 0;
   var centerY = 0;
-  var winHeight = 0;
+  var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
   var scrollTop = 0;
   var backgroundPosition = '';
 
@@ -73,7 +73,6 @@
   }
 
   function getViewportCenterY() {
-    winHeight = window.screen.height ? window.screen.height : window.innerHeight;
     scrollTop = $(window).scrollTop();
     centerY = winHeight * 0.5 + scrollTop;
 
@@ -104,6 +103,7 @@
     self = event.data;
 
     cacheElementProperties(self.$collection);
+    winHeight = window.screen.height ? window.screen.height : window.innerHeight;
   }
 
   function addEventListeners(instance) {
