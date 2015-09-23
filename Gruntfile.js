@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     watch: {
       qa: {
         files: [
-          '<%= yeoman.src %>/iptools-jquery-imageparallax.js',
+          '<%= yeoman.src %>/iptools-jquery-image-parallax.js',
           '<%= yeoman.test %>/index.html',
           '<%= yeoman.test %>/spec/test.js'
         ],
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       },
       bdd: {
         files: [
-          '<%= yeoman.src %>/iptools-jquery-imageparallax.js',
+          '<%= yeoman.src %>/iptools-jquery-image-parallax.js',
           '<%= yeoman.test %>/index.html',
           '<%= yeoman.test %>/spec/test.js'
         ],
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/iptools-jquery-imageparallax.min.js': 'src/iptools-jquery-imageparallax.js'
+          'dist/iptools-jquery-image-parallax.min.js': 'src/iptools-jquery-image-parallax.js'
         }
       }
     },
