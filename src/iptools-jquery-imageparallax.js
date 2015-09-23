@@ -62,7 +62,7 @@
   };
 
   function updateViewport($element, viewportCenterY, settings) {
-    imageCenterY = getImageCenterY($element);
+    imageCenterY = $element.data(dataAttributes.offsetTop);
     diffY = viewportCenterY - imageCenterY;
     offsetY = 50 - (diffY * settings.scrollFactor);
     currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
@@ -75,13 +75,9 @@
   function getViewportCenterY() {
     winHeight = window.screen.height ? window.screen.height : window.innerHeight;
     scrollTop = $(window).scrollTop();
-    centerY = parseInt((winHeight * 0.5) + scrollTop, 10);
+    centerY = winHeight * 0.5 + scrollTop;
 
     return centerY;
-  }
-
-  function getImageCenterY($element) {
-    return $element.data(dataAttributes.offsetTop);
   }
 
   function cacheElementProperties($collection) {
@@ -95,19 +91,19 @@
 
       offset = $element.offset();
       top = offset.top;
-      centerY = parseInt(($element.height() * 0.5) + top, 10);
+      centerY = $element.height() * 0.5 + top;
       $element.data(dataAttributes.offsetTop, centerY);
     });
+  }
+
+  function clamp(number, min, max) {
+    return number < min ? min : number > max ? max : number;
   }
 
   function handleResize(event) {
     self = event.data;
 
     cacheElementProperties(self.$collection);
-  }
-
-  function clamp(number, min, max) {
-    return number < min ? min : number > max ? max : number;
   }
 
   function addEventListeners(instance) {
