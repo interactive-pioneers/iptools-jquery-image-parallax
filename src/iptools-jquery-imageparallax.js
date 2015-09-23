@@ -15,6 +15,19 @@
     events: ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'scroll']
   };
 
+  var self = null;
+  var viewportCenterY = 0;
+  var imageCenterY = 0;
+  var diffY = 0;
+  var offsetY = 0;
+  var currentBackgroundPosition = 0;
+  var offset = null;
+  var top = 0;
+  var centerY = 0;
+  var winHeight = 0;
+  var scrollTop = 0;
+  var backgroundPosition = '';
+
   function IPTImageParallax(collection, options) {
     // currently there is no support for chrome on IOS
     // see: https://code.google.com/p/chromium/issues/detail?id=423444
@@ -33,8 +46,8 @@
   }
 
   IPTImageParallax.prototype.updateAllViewport = function(event) {
-    var self = event ? event.data : this;
-    var viewportCenterY = getViewportCenterY();
+    self = event ? event.data : this;
+    viewportCenterY = getViewportCenterY();
 
     self.$collection.each(function() {
       updateViewport($(this), viewportCenterY, self.settings);
@@ -47,10 +60,10 @@
   };
 
   function updateViewport($element, viewportCenterY, settings) {
-    var imageCenterY = getImageCenterY($element);
-    var diffY = viewportCenterY - imageCenterY;
-    var offsetY = 50 - (diffY * settings.scrollFactor);
-    var currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
+    imageCenterY = getImageCenterY($element);
+    diffY = viewportCenterY - imageCenterY;
+    offsetY = 50 - (diffY * settings.scrollFactor);
+    currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
 
     offsetY = clamp(offsetY, 0, 100);
 
@@ -58,24 +71,22 @@
   }
 
   function getViewportCenterY() {
-    var winHeight = window.screen.height ? window.screen.height : window.innerHeight;
-    var scrollTop = $(window).scrollTop();
-    var centerY = parseInt((winHeight / 2) + scrollTop, 10);
+    winHeight = window.screen.height ? window.screen.height : window.innerHeight;
+    scrollTop = $(window).scrollTop();
+    centerY = parseInt((winHeight / 2) + scrollTop, 10);
 
     return centerY;
   }
 
   function getImageCenterY($element) {
-    var offset = $element.offset();
-    var top = offset.top;
-    var centerY = parseInt(($element.height() / 2) + top, 10);
+    offset = $element.offset();
+    top = offset.top;
+    centerY = parseInt(($element.height() / 2) + top, 10);
 
     return centerY;
   }
 
   function getBackgroundPositions($collection) {
-    var backgroundPosition = {};
-
     $collection.each(function() {
       backgroundPosition = $(this).css('backgroundPosition').split(' ');
       $(this).data(dataAttributes.bgPosition, {
