@@ -64,6 +64,11 @@
   function updateViewport($element, viewportCenterY, settings) {
     imageCenterY = $element.data(dataAttributes.offsetTop);
     diffY = viewportCenterY - imageCenterY;
+
+    if (diffY * 2 > winHeight) {
+      return;
+    }
+
     offsetY = 50 - (diffY * settings.scrollFactor);
     currentBackgroundPosition = $element.data(dataAttributes.bgPosition);
 
