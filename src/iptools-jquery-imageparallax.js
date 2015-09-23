@@ -6,7 +6,8 @@
   var pluginName = 'iptImageParallax';
 
   var dataAttributes = {
-    bgPosition: 'background-position'
+    bgPosition: 'background_position',
+    offsetTop: 'offset_top'
   };
 
   var defaults = {
@@ -40,6 +41,7 @@
     this.settings = $.extend({}, defaults, options);
 
     getBackgroundPositions(this.$collection);
+    cacheElementCenterYOffsetTop(this.$collection);
     addEventListeners(this);
 
     this.updateAllViewport();
@@ -79,11 +81,7 @@
   }
 
   function getImageCenterY($element) {
-    offset = $element.offset();
-    top = offset.top;
-    centerY = parseInt(($element.height() / 2) + top, 10);
-
-    return centerY;
+    return $element.data(dataAttributes.offsetTop);
   }
 
   function getBackgroundPositions($collection) {
@@ -96,6 +94,22 @@
     });
   }
 
+  function cacheElementCenterYOffsetTop($collection) {
+    $collection.each(function() {
+      offset = $(this).offset();
+      top = offset.top;
+      centerY = parseInt(($(this).height() / 2) + top, 10);
+
+      $(this).data(dataAttributes.offsetTop, centerY);
+    });
+  }
+
+  function handleResize(event) {
+    self = event.data;
+
+    cacheElementCenterYOffsetTop(self.$collection);
+  }
+
   function clamp(number, min, max) {
     return number < min ? min : number > max ? max : number;
   }
@@ -104,6 +118,7 @@
     for (var i = 0; i <= instance.settings.events.length; i++) {
       $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
     }
+    $(window).on('resize', null, instance, handleResize);
   }
 
   $.fn[pluginName] = function(options) {
