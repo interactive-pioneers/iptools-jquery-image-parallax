@@ -50,12 +50,15 @@ module.exports = function(grunt) {
       ]
     },
     jscs: {
-      src: 'src/**/*.js',
       options: {
-        config: '.jscs.json',
-        fix: false,
-        force: false,
-        reporterOutput: null
+        config: '.jscsrc'
+      },
+      files: {
+        src: [
+          'Gruntfile.js',
+          '<%= yeoman.test %>/spec/*.js',
+          '<%= yeoman.src %>/*.js'
+        ]
       }
     },
     mocha: {
