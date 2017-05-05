@@ -1,4 +1,3 @@
-/* globals jQuery */
 (function($, document, window) {
 
   'use strict';
@@ -30,6 +29,36 @@
   var scrollTop = 0;
   var backgroundPosition = '';
 
+  function cacheElementProperties($collection) {
+    $collection.each(function() {
+      $element = $(this);
+      backgroundPosition = $element.css('backgroundPosition').split(' ');
+      $element.data(dataAttributes.bgPosition, {
+        x: backgroundPosition[0],
+        y: backgroundPosition[1]
+      });
+
+      offset = $element.offset();
+      top = offset.top;
+      centerY = $element.height() * 0.5 + top;
+      $element.data(dataAttributes.offsetTop, centerY);
+    });
+  }
+
+  function handleResize(event) {
+    self = event.data;
+
+    cacheElementProperties(self.$collection);
+    winHeight = window.screen.height ? window.screen.height : window.innerHeight;
+  }
+
+  function addEventListeners(instance) {
+    for (var i = 0; i <= instance.settings.events.length; i++) {
+      $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
+    }
+    $(window).on('resize' + '.' + pluginName, null, instance, handleResize);
+  }
+
   function IPTImageParallax(collection, options) {
     // currently there is no support for chrome on IOS
     // see: https://code.google.com/p/chromium/issues/detail?id=423444
@@ -47,19 +76,9 @@
     this.updateAllViewport();
   }
 
-  IPTImageParallax.prototype.updateAllViewport = function(event) {
-    self = event ? event.data : this;
-    viewportCenterY = getViewportCenterY();
-
-    self.$collection.each(function() {
-      updateViewport($(this), viewportCenterY, self.settings);
-    });
-  };
-
-  IPTImageParallax.prototype.destroy = function() {
-    $(document, window).off('.' + pluginName);
-    this.$collection.removeData('plugin_' + pluginName);
-  };
+  function clamp(number, min, max) {
+    return number < min ? min : number > max ? max : number;
+  }
 
   function updateViewport($element, viewportCenterY, settings) {
     imageCenterY = $element.data(dataAttributes.offsetTop);
@@ -84,39 +103,19 @@
     return centerY;
   }
 
-  function cacheElementProperties($collection) {
-    $collection.each(function() {
-      $element = $(this);
-      backgroundPosition = $element.css('backgroundPosition').split(' ');
-      $element.data(dataAttributes.bgPosition, {
-        x: backgroundPosition[0],
-        y: backgroundPosition[1]
-      });
+  IPTImageParallax.prototype.updateAllViewport = function(event) {
+    self = event ? event.data : this;
+    viewportCenterY = getViewportCenterY();
 
-      offset = $element.offset();
-      top = offset.top;
-      centerY = $element.height() * 0.5 + top;
-      $element.data(dataAttributes.offsetTop, centerY);
+    self.$collection.each(function() {
+      updateViewport($(this), viewportCenterY, self.settings);
     });
-  }
+  };
 
-  function clamp(number, min, max) {
-    return number < min ? min : number > max ? max : number;
-  }
-
-  function handleResize(event) {
-    self = event.data;
-
-    cacheElementProperties(self.$collection);
-    winHeight = window.screen.height ? window.screen.height : window.innerHeight;
-  }
-
-  function addEventListeners(instance) {
-    for (var i = 0; i <= instance.settings.events.length; i++) {
-      $(document).on(instance.settings.events[i] + '.' + pluginName, null, instance, instance.updateAllViewport);
-    }
-    $(window).on('resize' + '.' + pluginName, null, instance, handleResize);
-  }
+  IPTImageParallax.prototype.destroy = function() {
+    $(document, window).off('.' + pluginName);
+    this.$collection.removeData('plugin_' + pluginName);
+  };
 
   $.fn[pluginName] = function(options) {
     if (!$.data(this, 'plugin_' + pluginName)) {
