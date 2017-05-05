@@ -118,9 +118,11 @@
   };
 
   $.fn[pluginName] = function(options) {
-    if (!$.data(this, 'plugin_' + pluginName)) {
-      $.data(this, 'plugin_' + pluginName, new IPTImageParallax(this, options));
-    }
+    return this.each(function() {
+      if (!$.data(this, 'plugin_' + pluginName)) {
+        $.data(this, 'plugin_' + pluginName, new IPTImageParallax(this, options));
+      }
+    });
   };
 
 })(jQuery, document, window);
