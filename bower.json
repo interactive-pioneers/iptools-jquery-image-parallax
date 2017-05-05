@@ -2,7 +2,6 @@
   "name": "iptools-jquery-imageparallax",
   "description": "jQuery image parallax plugin",
   "main": "dist/iptools-jquery-imageparallax.min.js",
-  "version": "0.0.7",
   "license": "GPL-3.0",
   "ignore": [
     ".git*",
