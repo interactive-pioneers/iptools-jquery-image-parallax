@@ -106,7 +106,6 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-jscs');
-  grunt.loadNpmTasks('grunt-scss-lint');
 
   grunt.registerTask('test', ['mocha']);
   grunt.registerTask('qa', ['concurrent:qa']);
