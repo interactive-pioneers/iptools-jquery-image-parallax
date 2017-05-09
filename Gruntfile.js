@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     yeoman: {
       src: 'src',
       dist: 'dist',
+      test: 'test',
       pkg: grunt.file.readJSON('package.json'),
       meta: {
         banner: '/*! <%= yeoman.pkg.name %> - v<%= yeoman.pkg.version %> - ' +
@@ -34,7 +35,7 @@ module.exports = function(grunt) {
         files: [
           '<%= yeoman.src %>/iptools-jquery-image-parallax.js',
           '<%= yeoman.test %>/index.html',
-          '<%= yeoman.test %>/spec/test.js'
+          '<%= yeoman.test %>/spec/*.js'
         ],
         tasks: ['test']
       }
@@ -46,24 +47,28 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         '<%= yeoman.src %>/{,*/}*.js',
-        'test/spec/{,*/}*.js'
+        '<%= yeoman.test %>/spec/{,*/}*.js'
       ]
     },
     jscs: {
-      src: 'src/**/*.js',
       options: {
-        config: '.jscs.json',
-        fix: false,
-        force: false,
-        reporterOutput: null
+        config: '.jscsrc'
+      },
+      files: {
+        src: [
+          'Gruntfile.js',
+          '<%= yeoman.test %>/spec/*.js',
+          '<%= yeoman.src %>/*.js'
+        ]
       }
     },
     mocha: {
       all: {
         options: {
-          run: true
+          run: true,
+          log: true
         },
-        src: ['test/index.html']
+        src: ['<%= yeoman.test %>/index.html']
       }
     },
     concurrent: {
@@ -103,7 +108,6 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-jscs');
-  grunt.loadNpmTasks('grunt-scss-lint');
 
   grunt.registerTask('test', ['mocha']);
   grunt.registerTask('qa', ['concurrent:qa']);
