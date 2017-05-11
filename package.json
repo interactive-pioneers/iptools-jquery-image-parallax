@@ -1,7 +1,7 @@
 {
   "name": "iptools-jquery-imageparallax",
   "version": "0.0.7",
-  "description": "Abstract generic filter component",
+  "description": "jQuery image parallax plugin",
   "homepage": "https://github.com/interactive-pioneers/iptools-jquery-image-parallax",
   "author": {
     "name": "Interactive Pioneers GmbH",
@@ -48,5 +48,12 @@
   "keywords": [
     "javascript",
     "jquery"
+  ],
+  "files": [
+    "*.md",
+    "LICENSE",
+    "src",
+    "dist",
+    "styles"
   ]
 }
